@@ -28,17 +28,19 @@ router.get("/", (req, res) => {
 //
 router.get("/:movieId", (req, res) => {
     try {
-        //retreive moviedId from req.params
-
+        //retrieve moviedId from req.params
+        const movieId = parseInt(req.params.movieId);
 
         //calling controller method and passing the parameters
         //return the response as per error or result coming from controller
         movieController.getMovieById(movieId, (err, results) => {
-
+            if (err)
+                return res.status(404).send(err);
+            return res.status(200).send({"STATUS": "OK", data: results});
         });
 
     } catch (err) {
-
+        res.status(400).send("Unexpected error try again");
     }
 });
 
@@ -48,18 +50,23 @@ router.get("/:movieId", (req, res) => {
  */
 router.post("/", (req, res) => {
     try {
-        //retreive movieDetails from req.body
+        //retrieve movieDetails from req.body
         const movieDetails = {
-
+            "id": req.body.id,
+            "movieName": req.body.movieName,
+            "director": req.body.director,
+            "rating": req.body.rating
         }
         //calling controller method and passing the parameters
         //return the response as per error or result coming from controller
         movieController.saveMovieDetails(movieDetails, (err, results) => {
-
+            if (err)
+                return res.status(400).send(err);
+            return res.status(201).send({"STATUS": "OK", data: results});
         });
 
     } catch (err) {
-
+        res.status(400).send("Unexpected error try again");
     }
 });
 
@@ -70,19 +77,25 @@ router.post("/", (req, res) => {
 router.patch("/:movieId", (req, res) => {
     try {
         //retreive moviedId from req.params
+        const movieId = parseInt(req.params.movieId);
 
-        //retreive movieDetails from req.body
+        //retrieve movieDetails from req.body
         const movieDetails = {
-
+            "id": req.body.id,
+            "movieName": req.body.movieName,
+            "director": req.body.director,
+            "rating": req.body.rating
         }
         //calling controller method and passing the parameters
         //return the response as per error or result coming from controller
         movieController.updateMovieDetails(movieId, movieDetails, (err, results) => {
-
+            if (err)
+                return res.status(404).send(err);
+            return res.status(200).send({"STATUS": "OK", data: results});
         });
 
     } catch (err) {
-
+        res.status(400).send("Unexpected error try again");
     }
 });
 
@@ -93,15 +106,19 @@ router.patch("/:movieId", (req, res) => {
 router.delete("/:movieId", (req, res) => {
     try {
         //retreive moviedId from req.params
+        const movieId = parseInt(req.params.movieId);
 
         //calling controller method and passing the parameters
         //return the response as per error or result coming from controller
         movieController.deleteMovieById(movieId, (err, results) => {
+            if (err)
+                return res.status(400).send(err);
+            return res.status(200).send({"STATUS": "OK", data: results});
         })
 
 
     } catch (err) {
-
+        res.status(400).send("Unexpected error try again");
     }
 });
 

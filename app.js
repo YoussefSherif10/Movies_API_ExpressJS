@@ -18,8 +18,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api/v1/movies", moviesRouter);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDoc));
 
+
+
 const server = app.listen(config.PORT, () => {
-  console.log('Listening on port', config.PORT);
+    console.log('Listening on port', config.PORT);
 });
 
 module.exports = server;
